@@ -1,0 +1,4 @@
+# TODO
+
+- Need to find a way to make CrowdSec setup more gitops friendly LOL.
+- Setup CrowdSec x Traefik x Prometheus x Grafana

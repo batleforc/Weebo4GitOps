@@ -2,35 +2,33 @@ version: '3'
 
 env:
   KUBECONFIG: "./kubeconfig.yaml"
-  ARGO_APP_REPO: "https://github.com/batleforc/poc-argocd"
+  ARGO_APP_REPO: "https://github.com/batleforc/Weebo4GitOps"
   ARGO_DEST_SERVER: "https://kubernetes.default.svc"
+  ARGO_VERSION: "2.12.4"
 
 tasks:
   argo:install:
     cmds:
     - kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-    - kubectl apply -n argocd -f ./argo-install.yml
+    - kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v$ARGO_VERSION/manifests/install.yaml
+
   argo:port-forward:
     cmds:
     - kubectl port-forward svc/argocd-server -n argocd 8080:443
+
   argo:uninstall:
     cmds:
     - kubectl delete -n argocd -f ./argo-install.yml
     - kubectl delete namespace argocd
+
   argo:get-first-password:
     cmds:
     - kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-  argo:create-demo:
-    cmds:
-    - kubectl create namespace demo-guestbook --dry-run=client -o yaml | kubectl apply -f -
-    - argocd app create guestbook --repo $ARGO_APP_REPO --path demo-guestbook --dest-server $ARGO_DEST_SERVER --dest-namespace demo-guestbook
-  argo:delete-demo:
-    cmds:
-    - argocd app delete guestbook
-    - kubectl delete namespace demo-guestbook
+
   argo:create-main:
     cmds:
-    - argocd app create main --repo $ARGO_APP_REPO --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default --sync-policy automated
+    - argocd app create main --repo $ARGO_APP_REPO --directory-recurse --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default --sync-policy automated
+
   argo:delete-main:
     cmds:
     - argocd app delete main
