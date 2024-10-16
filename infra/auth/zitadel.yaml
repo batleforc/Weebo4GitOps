@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: zitadel-zitadel
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    chart: zitadel
+    repoURL: https://charts.zitadel.com
+    targetRevision: 8.5.0
+    helm:
+      releaseName: zitadel-zitadel
+      valuesObject:
+        zitadel:
+          masterkey: x123456789012345678901234567891y
+          configmapConfig:
+            ExternalSecure: true
+            ExternalDomain: "login.weebo.fr"
+            TLS:
+              Enabled: false
+            Database:
+              Postgres:
+                Host: db-postgresql
+                Port: 5432
+                Database: zitadel
+                MaxOpenConns: 20
+                MaxIdleConns: 10
+                MaxConnLifetime: 30m
+                MaxConnIdleTime: 5m
+                User:
+                  Username: zitadel
+                  SSL:
+                    Mode: verify-full
+                Admin:
+                  Username: postgres
+                  SSL:
+                    Mode: verify-full
+          secretConfig:
+            Database:
+              Postgres:
+                User:
+                  Password: "8JtpAXjfuTKjZ9nPxyS6FjMF3eBexq1ICWEo1TDsotNkA"
+                Admin:
+                  Password: "ySqbsmbvvF9R2IVCFgGakbwyEizFJKGup17fSR8Xmt6FGPaE"
+
+          dbSslCaCrtSecret: postgres-cert
+          dbSslAdminCrtSecret: postgres-cert
+          dbSslUserCrtSecret: zitadel-cert
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: zitadel

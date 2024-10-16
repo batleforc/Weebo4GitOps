@@ -1,0 +1,59 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: zitadel-selfsigned
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zitadel-ca
+  namespace: zitadel
+spec:
+  isCA: true
+  commonName: zitadel-ca
+  secretName: zitadel-ca-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: zitadel-selfsigned
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: zitadel-ca-issuer
+  namespace: zitadel
+spec:
+  ca:
+    secretName: zitadel-ca-secret
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zitadel-cert
+  namespace: zitadel
+spec:
+  secretName: zitadel-cert
+  duration: 365d
+  renewBefore: 360d
+  issuerRef:
+    name: zitadel-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgres-cert
+  namespace: zitadel
+spec:
+  secretName: postgres-cert
+  duration: 365d
+  renewBefore: 360d
+  issuerRef:
+    name: zitadel-ca-issuer
+    kind: Issuer

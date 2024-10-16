@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ingress
+    path: infra/ingress
     repoURL: https://github.com/batleforc/Weebo4GitOps.git
     targetRevision: HEAD
     directory:

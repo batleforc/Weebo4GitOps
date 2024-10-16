@@ -1,0 +1,42 @@
+version: "3"
+
+tasks:
+  echo:
+    cmds:
+    - echo $KUBECONFIG
+  port-forward:
+    cmds:
+    - kubectl port-forward svc/argocd-server -n argocd 8080:443
+  start-up:
+    vars:
+      PASSWORD:
+        sh: task argo:get-password
+    cmds:
+    - argocd login localhost:8080 --username admin --password {{.PASSWORD}} --insecure
+    - task: context
+    - kubectl apply -f ./Layer-0/layer0.yaml
+    - argocd app sync layer-0
+  create-main:
+    vars:
+      PASSWORD:
+        sh: task argo:get-password
+    cmds:
+    - task: context
+    - argocd app create main --repo $ARGO_APP_REPO --directory-recurse --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default --sync-policy automated
+    - argocd login localhost:8080 --username admin --password {{.PASSWORD}} --insecure
+    - argocd app sync main
+  delete-main:
+    cmds:
+    - argocd app delete main
+  install:
+    cmds:
+    - kubectl apply -f ./0.argocd/namespace.yaml
+    - helm repo add argo https://argoproj.github.io/argo-helm
+    - helm upgrade --install argocd argo/argo-cd --namespace argocd --version $ARGO_VERSION --values ./argo-values.yaml
+
+  context:
+    cmds:
+    - kubectl config set-context --current --namespace=argocd
+  get-password:
+    cmds:
+    - kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d

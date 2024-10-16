@@ -4,32 +4,16 @@ env:
   KUBECONFIG: "./kubeconfig.yaml"
   ARGO_APP_REPO: "https://github.com/batleforc/Weebo4GitOps"
   ARGO_DEST_SERVER: "https://kubernetes.default.svc"
-  ARGO_VERSION: "2.12.4"
+  ARGO_VERSION: "7.6.10"
+
+includes:
+  argo:
+    taskfile: 0.task/argocd/argo.yaml
+  sops:
+    taskfile: 0.task/sops/taskfile.yaml
 
 tasks:
-  argo:install:
+  hello:
     cmds:
-    - kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-    - kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v$ARGO_VERSION/manifests/install.yaml
-
-  argo:port-forward:
-    cmds:
-    - kubectl port-forward svc/argocd-server -n argocd 8080:443
-
-  argo:uninstall:
-    cmds:
-    - kubectl delete -n argocd -f ./argo-install.yml
-    - kubectl delete namespace argocd
-
-  argo:get-first-password:
-    cmds:
-    - kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-  argo:create-main:
-    cmds:
-    - argocd app create main --repo $ARGO_APP_REPO --directory-recurse --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default --sync-policy automated
-
-  argo:delete-main:
-    cmds:
-    - argocd app delete main
+    - echo "Hello World"
 

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres-zitadel
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    chart: postgresql
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 17.0.0
+    helm:
+      releaseName: pgsql-zitadel
+      valuesObject:
+        volumePermissions:
+          enabled: true
+        tls:
+          enabled: true
+          certificatesSecret: postgres-cert
+          certFilename: "tls.crt"
+          certKeyFilename: "tls.key"
+        auth:
+          postgresPassword: "ySqbsmbvvF9R2IVCFgGakbwyEizFJKGup17fSR8Xmt6FGPaE"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: zitadel

@@ -1,0 +1,7 @@
+creation_rules:
+- path_regex: .+\.sops\.ya?ml
+  encrypted_regex: "^(data|stringData)$"
+  key_groups:
+  - age:
+    - age1q3ykcmr4sku3lxdplhs6astxwdlwq5qlv259l2sl5e4x0guyt3ysps69gu
+

@@ -1,0 +1,33 @@
+version: "3"
+
+tasks:
+  gen:
+    desc: Generate age-keygen
+    cmds:
+    - age-keygen -o age.agekey
+  send:
+    desc: Send age-keygen to kubernetes
+    cmds:
+    - kubectl create secret generic age-sops --from-file=age.agekey=age.agekey --namespace=flux-system
+  get:
+    desc: Get age-keygen from kubernetes
+    cmds:
+    - kubectl get secret age-sops -o jsonpath="{.data.age\.agekey}" | base64 -d > age.agekey
+  cypher:
+    desc: Encrypt secrets
+    cmds:
+    - sops --encrypt --in-place {{.CLI_ARGS}}
+  uncypher:
+    desc: Decrypt secrets
+    env:
+      SOPS_AGE_KEY_FILE: age.agekey
+    cmds:
+    - sops --decrypt --in-place {{.CLI_ARGS}}
+  cypher-all:
+    desc: Encrypt all secrets
+    cmds:
+    - task sops:cypher -- infra/secret/*
+  uncypher-all:
+    desc: Decrypt all secrets
+    cmds:
+    - task sops:uncypher -- infra/secret/*
