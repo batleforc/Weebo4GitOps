@@ -14,7 +14,7 @@
 
 ## Monitoring
 
-TODO
+TODO: Need the auth to be okay first
 
 ## Secret Management
 

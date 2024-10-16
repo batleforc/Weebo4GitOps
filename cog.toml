@@ -11,14 +11,6 @@ post_bump_hooks = []
 pre_package_bump_hooks = []
 post_package_bump_hooks = []
 
-[git_hooks.commit-msg]
-script = """#!/bin/sh
-set -e
-
-echo "[Make sure that every secret are cyphered]"
-task sops:cypher-all
-"""
-
 [commit_types]
 hotfix = { changelog_title = "Hotfixes" }
 release = { changelog_title = "Releases" }
