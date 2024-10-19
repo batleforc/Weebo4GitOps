@@ -15,14 +15,28 @@ spec:
       releaseName: zitadel-zitadel
       valuesObject:
         zitadel:
-          masterkey: x123456789012345678901234567891y
+          masterkeySecretName: zitadel-zitadel
+          configSecretName: zitadel-zitadel
           configmapConfig:
             ExternalSecure: true
             ExternalDomain: "login.weebo.fr"
+            Tracing:
+              Type: "otel"
+            Telemetry:
+              Endpoints: "http://tempo.monitoring.svc.cluster.local:4317"
+              Enabled: true
             TLS:
               Enabled: false
+            FirstInstance:
+              Org:
+                Machine:
+                  Machine:
+                    Username: "zitadel-admin-sa"
+                    Name: "Admin"
+                  MachineKey:
+                    Type: 1
             Database:
-              Postgres:
+              postgres:
                 Host: db-postgresql
                 Port: 5432
                 Database: zitadel
@@ -38,17 +52,31 @@ spec:
                   Username: postgres
                   SSL:
                     Mode: verify-full
-          secretConfig:
-            Database:
-              Postgres:
-                User:
-                  Password: "8JtpAXjfuTKjZ9nPxyS6FjMF3eBexq1ICWEo1TDsotNkA"
-                Admin:
-                  Password: "ySqbsmbvvF9R2IVCFgGakbwyEizFJKGup17fSR8Xmt6FGPaE"
-
           dbSslCaCrtSecret: postgres-cert
           dbSslAdminCrtSecret: postgres-cert
           dbSslUserCrtSecret: zitadel-cert
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: "traefik"
+            cert-manager.io/cluster-issuer: "letsencrypt-prod"
+            haproxy-ingress.github.io/timeout-client: 180s
+            haproxy-ingress.github.io/proxy-body-size: 512m
+            haproxy-ingress.github.io/backend-protocol: h2
+          hosts:
+          - host: "login.weebo.fr"
+            paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: zitadel
+                  port:
+                    number: 8080
+          tls:
+          - hosts:
+            - login.weebo.fr
+            secretName: login-weebo-tls
   destination:
     server: "https://kubernetes.default.svc"
     namespace: zitadel

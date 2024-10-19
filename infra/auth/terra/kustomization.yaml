@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- serviceaccount.yaml
+- terraform-pvc.yaml
+- terra.yaml
+
+configMapGenerator:
+- name: terraform-login
+  namespace: zitadel
+  files:
+  - terraform/main.tf
+  - terraform/user.tf
+  - terraform/grafana.tf
+  - terraform/gitea.tf
+  - terraform/tekton.tf
+  - terraform/harbor.tf
+  - terraform/sonarqube.tf
+  - terraform/rust-template.tf
+  - terraform/cluster.tf
+  - terraform/longhorn.tf
+  - terraform/grocy.tf
+  - terraform/rss.tf
+  - terraform/api-middleware.tf
+generatorOptions:
+  disableNameSuffixHash: true

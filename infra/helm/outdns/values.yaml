@@ -1,0 +1,128 @@
+zone:
+  "db.weebo.fr":
+    zone: "weebo.fr."
+    file: |
+      $TTL 1h ;
+      $ORIGIN weebo.fr.
+      @       IN      SOA     sdns2.ovh.net. maxleriche\.60.gmail.com. (
+                              2024011931; serial
+                              7200; refresh
+                              3600; retry
+                              1209600; expire
+                              38400 ) ; minimum
+              IN      NS                              sdns2.ovh.net.
+              IN      NS                              ns3027338.ip-37-187-142.eu.
+      weebo.fr.       3600    CAA       0 issue "letsencrypt.org"
+      weebo.fr.       600     IN TXT "v=spf1 mx a:mail.weebo.fr ~all"
+      weebo.fr.       600     IN TXT "google-site-verification=0N1vTehQGI2Bc_p08SeijHssABbML4WF6OUAtKDCeMU"
+      weebo.fr.       3600    A                               37.187.142.160
+      weebo.fr.       3600    AAAA                            2001:41d0:a:4da0::1
+      auth            3600    A                               37.187.142.160
+      auth            3600    AAAA                            2001:41d0:a:4da0::1
+      login           3600    A                               37.187.142.160
+      login           3600    AAAA                            2001:41d0:a:4da0::1
+      grafana         3600    A                               37.187.142.160
+      grafana         3600    AAAA                            2001:41d0:a:4da0::1
+      harbor          3600    A                               37.187.142.160
+      harbor          3600    AAAA                            2001:41d0:a:4da0::1
+      notary.harbor   3600    A                               37.187.142.160
+      notary.harbor   3600    AAAA                            2001:41d0:a:4da0::1
+      qube            3600    A                               37.187.142.160
+      qube            3600    AAAA                            2001:41d0:a:4da0::1
+      bucket          3600    A                               37.187.142.160
+      bucket          3600    AAAA                            2001:41d0:a:4da0::1
+      console.bucket  3600    A                               37.187.142.160
+      console.bucket  3600    AAAA                            2001:41d0:a:4da0::1
+      cicd            3600    A                               37.187.142.160
+      cicd            3600    AAAA                            2001:41d0:a:4da0::1
+      board           3600    A                               37.187.142.160
+      board           3600    AAAA                            2001:41d0:a:4da0::1
+      quake           3600    A                               37.187.142.160
+      quake           3600    AAAA                            2001:41d0:a:4da0::1
+      git             3600    A                               37.187.142.160
+      git             3600    AAAA                            2001:41d0:a:4da0::1
+      webhook         3600    A                               37.187.142.160
+      webhook         3600    AAAA                            2001:41d0:a:4da0::1
+      doc             3600    A                               37.187.142.160
+      doc             3600    AAAA                            2001:41d0:a:4da0::1
+      codi            3600    A                               37.187.142.160
+      codi            3600    AAAA                            2001:41d0:a:4da0::1
+      leaf            3600    A                               37.187.142.160
+      leaf            3600    AAAA                            2001:41d0:a:4da0::1
+      *.game          3600    A                               37.187.142.160
+      *.game          3600    AAAA                            2001:41d0:a:4da0::1
+      bin             3600    A                               37.187.142.160
+      bin             3600    AAAA                            2001:41d0:a:4da0::1
+      gotify          3600    A                               37.187.142.160
+      gotify          3600    AAAA                            2001:41d0:a:4da0::1
+      ntfy            3600    A                               37.187.142.160
+      ntfy            3600    AAAA                            2001:41d0:a:4da0::1
+      workflow        3600    A                               37.187.142.160
+      workflow        3600    AAAA                            2001:41d0:a:4da0::1
+      dev             3600    A                               37.187.142.160
+      dev             3600    AAAA                            2001:41d0:a:4da0::1
+      reader          3600    A                               37.187.142.160
+      reader          3600    AAAA                            2001:41d0:a:4da0::1
+      template        3600    A                               37.187.142.160
+      template        3600    AAAA                            2001:41d0:a:4da0::1
+      guard           3600    A                               37.187.142.160
+      guard           3600    AAAA                            2001:41d0:a:4da0::1
+      dns.guard       3600    A                               37.187.142.160
+      dns.guard       3600    AAAA                            2001:41d0:a:4da0::1
+      sonar           3600    A                               37.187.142.160
+      sonar           3600    AAAA                            2001:41d0:a:4da0::1
+      horn            3600    A                               37.187.142.160
+      horn            3600    AAAA                            2001:41d0:a:4da0::1
+      meal            3600    A                               37.187.142.160
+      meal            3600    AAAA                            2001:41d0:a:4da0::1
+      bu-teammaker    3600    A                               37.187.142.160
+      bu-teammaker    3600    AAAA                            2001:41d0:a:4da0::1
+      *.dev           3600    A                               37.187.142.160
+      *.dev           3600    AAAA                            2001:41d0:a:4da0::1
+      che.dev         3600    A                               37.187.142.160
+      che.dev         3600    AAAA                            2001:41d0:a:4da0::1
+      *.che.dev       3600    A                               37.187.142.160
+      *.che.dev       3600    AAAA                            2001:41d0:a:4da0::1
+      rss             3600    A                               37.187.142.160
+      rss             3600    AAAA                            2001:41d0:a:4da0::1
+      draw            3600    A                               37.187.142.160
+      draw            3600    AAAA                            2001:41d0:a:4da0::1
+      sync            3600    A                               37.187.142.160
+      sync            3600    AAAA                            2001:41d0:a:4da0::1
+      cyberchef       3600    A                               37.187.142.160
+      cyberchef       3600    AAAA                            2001:41d0:a:4da0::1
+      wakatime        3600    A                               37.187.142.160
+      wakatime        3600    AAAA                            2001:41d0:a:4da0::1
+      beta                  3600    A                               37.187.142.160
+      beta                  3600    AAAA                            2001:41d0:a:4da0::1
+  "db.maxleriche.net":
+    zone: "maxleriche.net."
+    file: |
+      $TTL 38400
+      maxleriche.net.       IN      SOA     dns11.ovh.net. maxleriche\.60.gmail.com. (
+                              2023111324
+                              10800
+                              3600
+                              604800
+                              38400 )
+      maxleriche.net.       3600    CAA       0 issue "letsencrypt.org"
+      maxleriche.net.       600     IN TXT "v=spf1 mx a:mail.weebo.fr ~all"
+      maxleriche.net.       3600    A                               37.187.142.160
+      maxleriche.net.       3600    AAAA                            2001:41d0:a:4da0::1
+      maxleriche.net.       NS                                      dns11.ovh.net.
+      maxleriche.net.       NS                                      ns3027338.ip-37-187-142.eu.
+      beta                  3600    A                               37.187.142.160
+      beta                  3600    AAAA                            2001:41d0:a:4da0::1
+  "db.142.187.37.in-addr.arpa":
+    zone: "142.187.37.in-addr.arpa."
+    file: |
+      $TTL 38400
+      $ORIGIN 142.187.37.in-addr.arpa.
+      @       IN      SOA     weebo.fr. maxleriche.60.gmail.com. (
+                              1
+                              10800
+                              3600
+                              604800
+                              38400 )
+      @       3600    NS      weebo.fr.
+      160     IN      PTR     maxleriche.net.

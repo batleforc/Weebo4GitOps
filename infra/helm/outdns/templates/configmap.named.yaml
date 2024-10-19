@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: named-map
+  namespace: outdns
+data:
+  named.conf: |
+    options {
+      directory "/var/cache/bind";
+      querylog yes;
+      listen-on port 53 { any; };
+      listen-on-v6 { ::1; };
+      allow-recursion {
+        none;
+      };
+      allow-transfer {
+        none;
+      };
+      allow-update {
+        none;
+      };
+    };
+    {{ range $key, $value := .Values.zone }}
+    zone "{{ $value.zone }}"{
+      type primary;
+      file "/var/lib/bind/{{ $key}}";
+      notify explicit;
+    };
+    {{ end }}

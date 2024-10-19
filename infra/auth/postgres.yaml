@@ -10,7 +10,7 @@ spec:
   source:
     chart: postgresql
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 17.0.0
+    targetRevision: 16.0.3
     helm:
       releaseName: pgsql-zitadel
       valuesObject:
@@ -22,6 +22,9 @@ spec:
           certFilename: "tls.crt"
           certKeyFilename: "tls.key"
         auth:
+          existingSecret: postgres-zitadel
+          secretKeys:
+            adminPasswordKey: "admin-password"
           postgresPassword: "ySqbsmbvvF9R2IVCFgGakbwyEizFJKGup17fSR8Xmt6FGPaE"
   destination:
     server: "https://kubernetes.default.svc"

@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: apply-terraform
+  namespace: zitadel
+spec:
+  schedule: "0 */3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: terraform-apply
+          containers:
+            - name: apply-terraform
+              image: hashicorp/terraform:latest
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/sh
+                - -c
+                - cd /terraform && touch anotherNAmeThatsoudnothing.tf && rm *.tf && cp /app/*.tf . && terraform init --upgrade && terraform apply -auto-approve
+              volumeMounts:
+                - name: terra-job
+                  mountPath: /terraform
+                - name: terraform-login
+                  mountPath: /app/
+                - name: zitadel-client
+                  mountPath: /machine-key/
+          restartPolicy: OnFailure
+          volumes:
+            - name: terraform-login
+              configMap:
+                name: terraform-login
+            - name: zitadel-client
+              secret:
+                secretName: zitadel-admin-sa
+            - name: terra-job
+              persistentVolumeClaim:
+                claimName: terra-job

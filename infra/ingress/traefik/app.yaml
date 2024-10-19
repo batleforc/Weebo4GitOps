@@ -17,6 +17,10 @@ spec:
         ingressRoute:
           dashboard:
             enabled: true
+        tracing:
+          otlp:
+            endpoint: "tempo.monitoring.svc.cluster.local:4317"
+            enabled: true
         metrics:
           prometheus:
             service:

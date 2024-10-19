@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: terra-zitadel
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated: {}
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: infra/auth/terra
+    repoURL: https://github.com/batleforc/Weebo4GitOps.git
+    targetRevision: HEAD
+    directory:
+      recurse: true
