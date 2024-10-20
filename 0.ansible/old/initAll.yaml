@@ -1,0 +1,26 @@
+- hosts: "master"
+  become: true
+  tasks:
+    - name: "Update and upgrade apt packages"
+      apt:
+        update_cache: yes
+        upgrade: "yes"
+    - name: "Get the token from the master node"
+      fetch:
+        src: /var/lib/rancher/k3s/server/node-token
+        dest: ./node-token
+- hosts: "worker"
+  become: true
+  vars:
+    token: "{{ lookup('file', './node-token') }}"
+  tasks:
+    - name: "Update and upgrade apt packages"
+      apt:
+        update_cache: yes
+        upgrade: "yes"
+    - name: "Copy token"
+      copy:
+        src: ./node-token
+        dest: /tmp/node-token
+    - name: "Install K3S"
+      shell: "curl -sfL https://get.k3s.io | K3S_URL=https://{{k3s_master}}:6443 K3S_TOKEN={{token}} sh -"

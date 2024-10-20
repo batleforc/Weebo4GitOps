@@ -1,0 +1,102 @@
+- name: "Install K3S on master"
+  hosts: "master"
+  tasks:
+    - name: "Update and upgrade apt packages"
+      ansible.builtin.apt:
+        update_cache: "yes"
+        upgrade: "yes"
+      become: true
+    - name: "Install curl"
+      ansible.builtin.apt:
+        name: curl
+        state: present
+      become: true
+    - name: "Create subdir for k3s conf"
+      ansible.builtin.file:
+        path: "/etc/rancher/k3s"
+        state: directory
+        owner: "{{ k3s_owner }}"
+        group: "{{ k3s_owner }}"
+        mode: "0744"
+      become: true
+    - name: "Copy k3s-init.yaml to /etc/rancher/k3s/config.yaml"
+      ansible.builtin.copy:
+        src: "config-file/k3s-init.yaml"
+        dest: "/etc/rancher/k3s/config.yaml"
+        owner: "{{ k3s_owner }}"
+        group: "{{ k3s_owner }}"
+        mode: "0644"
+    - name: "Check if k3s is already installed"
+      ansible.builtin.command: "k3s --version"
+      register: k3s_version
+      ignore_errors: true
+    - name: "Install K3S"
+      ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC=" --flannel-backend=none --disable-network-policy --disable servicelb --disable traefik" sh -
+      when: "k3s_install == 'true' and k3s_version.rc != 0"
+    - name: "Get the kubeconfig"
+      ansible.builtin.fetch:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: ../kubeconfig.yaml
+        flat: true
+      become: true
+    - name: "Check if eBPF filesystem is mounted"
+      ansible.builtin.shell: "cat /etc/fstab | grep 'none /sys/fs/bpf bpf rw,relatime 0 0'"
+      register: ebpf_mounted
+      ignore_errors: true
+    - name: "Mount eBPF filesystem"
+      ansible.builtin.shell: |
+        mount bpffs /sys/fs/bpf -t bpf &&
+        sudo bash -c 'cat <<EOF >> /etc/fstab
+           none /sys/fs/bpf bpf rw,relatime 0 0
+        EOF'
+      become: true
+      when: "ebpf_mounted.rc != 0"
+    - name: "Restart local-fs"
+      ansible.builtin.shell: |
+        systemctl daemon-reload &&
+        systemctl restart local-fs.target
+      become: true
+      when: "ebpf_mounted.rc != 0"
+- name: "Install K3S followup"
+  hosts: "localhost"
+  vars:
+    CLI_ARCH: "amd64"
+    cilium_update: "true"
+  tasks:
+    - name: "Patch kubeconfig"
+      ansible.builtin.replace:
+        path: "../kubeconfig.yaml"
+        regexp: "https://127.0.0.1:6443"
+        replace: "https://{{ hostvars['weebo3']['ansible_host'] }}:6443"
+    - name: "Make sure the kubeconfig isn't group readable"
+      ansible.builtin.file:
+        path: "../kubeconfig.yaml"
+        mode: "0600"
+    - name: "Check if cilium is already installed"
+      ansible.builtin.shell: "task cilium:check-ns"
+      register: cilium_ns
+      ignore_errors: true
+    - name: "Add cilium repo"
+      ansible.builtin.shell: "helm repo add cilium https://helm.cilium.io/"
+      when: "cilium_ns.rc != 0"
+    - name: "If cilium update uninstall cilium"
+      ansible.builtin.shell: "task cilium:uninstall"
+      when: "cilium_update == 'true'"
+    - name: "Install cilium"
+      ansible.builtin.shell: "task cilium:install"
+      when: "cilium_ns.rc != 0 or cilium_update == 'true'"
+    - name: "Check if cilium cli is installed"
+      ansible.builtin.shell: "cilium version"
+      register: cilium_version
+      ignore_errors: true
+    - name: "Get cilium cli --version"
+      ansible.builtin.shell: "curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt"
+      register: cilium_version_target
+      when: "cilium_version.rc != 0"
+    - name: "Install cilium cli"
+      ansible.builtin.shell: |
+        curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/{{ cilium_version_target.stdout }}/cilium-linux-{{ CLI_ARCH }}.tar.gz{,.sha256sum} &&
+        sha256sum --check cilium-linux-{{ CLI_ARCH }}.tar.gz.sha256sum &&
+        sudo tar xzvf cilium-linux-{{ CLI_ARCH }}.tar.gz -C /usr/local/bin &&
+        rm cilium-linux-{{ CLI_ARCH }}.tar.gz cilium-linux-{{ CLI_ARCH }}.tar.gz.sha256sum
+      when: "cilium_version.rc != 0"

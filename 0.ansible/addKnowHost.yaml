@@ -1,0 +1,25 @@
+- name: "Add KnowHost"
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: "Create .ssh if not exist"
+      file:
+        path: ~/.ssh
+        state: directory
+    - name: "create knowHost if not exit"
+      copy:
+        content: ""
+        dest: "~/.ssh/known_hosts"
+        force: no
+    - command: "ssh-keyscan {{ item }}"
+      with_items:
+        - "{{ssh_hosts}}"
+      register: known_host_keys
+      tags:
+        - "ssh"
+    - name: "Add ssh keys to know hosts"
+      known_hosts:
+        name: "{{item.item}}"
+        key: "{{item.stdout}}"
+        path: ~/.ssh/known_hosts
+      with_items: "{{ known_host_keys.results }}"

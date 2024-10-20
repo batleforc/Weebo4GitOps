@@ -1,0 +1,18 @@
+- hosts: "master"
+  become: true
+  tasks:
+    - name: "Update and upgrade apt packages"
+      apt:
+        update_cache: yes
+        upgrade: "yes"
+    - name: "Install K3S"
+      shell: curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -
+    - name: "Copy kubeconfig to /root/.kube/config"
+      copy:
+        src: "/etc/rancher/k3s/k3s.yaml"
+        dest: "/home/debian/.kube/config"
+      become: true
+    - name: "Install Cilium with cli"
+      shell: "cilium install"
+    - name: "Enable hubble"
+      shell: "cilium hubble enable -ui"

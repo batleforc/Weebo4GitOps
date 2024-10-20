@@ -1,0 +1,27 @@
+# File to put at /etc/rancher/k3s/config.yaml on server nodes
+# In case of not enough pod https://stackoverflow.com/a/71256676
+# If loadbalancer does not work anymore enable by removing servicelb on disable:
+kube-controller-manager-arg:
+- "bind-address=0.0.0.0"
+- "allocate-node-cidrs"
+kube-proxy-arg:
+- "metrics-bind-address=0.0.0.0"
+kube-scheduler-arg:
+- "bind-address=0.0.0.0"
+kube-apiserver-arg:
+- "oidc-username-claim=preferred_username"
+- "oidc-groups-claim=roles"
+- "oidc-groups-prefix=oidc:"
+- "oidc-client-id={{ OIDC_CLIENT_ID }}"
+- "oidc-issuer-url=oidc:https://login.weebo.fr"
+etcd-expose-metrics: true
+write-kubeconfig-mode: 0644
+disable: traefik, servicelb
+disble-kube-proxy: true # --disable-kube-proxy possibly need to be added directly in the service but not sure
+cluster-cidr: 10.42.0.0/16,2001:cafe:42:0::/56
+service-cidr: 10.43.0.0/16,2001:cafe:42:1::/112
+flannel-backend: none
+disable-network-policy: true
+node-label:
+- "kubernetes-host="
+- "weebo-k3s-master=true"

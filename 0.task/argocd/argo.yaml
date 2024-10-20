@@ -30,9 +30,9 @@ tasks:
     - argocd app delete main
   install:
     cmds:
-    - kubectl apply -f ./0.argocd/namespace.yaml
+    - kubectl apply -f ./0.task/argocd/namespace.yaml
     - helm repo add argo https://argoproj.github.io/argo-helm
-    - helm upgrade --install argocd argo/argo-cd --namespace argocd --version $ARGO_VERSION --values ./argo-values.yaml
+    - helm upgrade --install argocd argo/argo-cd --namespace argocd --version $ARGO_VERSION --values ./0.task/argocd/argo-values.yaml
 
   context:
     cmds:

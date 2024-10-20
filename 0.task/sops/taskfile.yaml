@@ -8,7 +8,7 @@ tasks:
   send:
     desc: Send age-keygen to kubernetes
     cmds:
-    - kubectl create secret generic age-sops --from-file=age.agekey=age.agekey --namespace=flux-system
+    - kubectl create secret generic age-sops --from-file=age.agekey=age.agekey --namespace=argocd
   get:
     desc: Get age-keygen from kubernetes
     cmds:

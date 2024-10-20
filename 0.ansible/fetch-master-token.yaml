@@ -1,0 +1,12 @@
+- hosts: "master"
+  become: true
+  tasks:
+  - name: "Update and upgrade apt packages"
+    apt:
+      update_cache: yes
+      upgrade: "yes"
+  - name: "Get the token from the master node"
+    fetch:
+      src: /var/lib/rancher/k3s/server/node-token
+      dest: node-token
+      flat: true

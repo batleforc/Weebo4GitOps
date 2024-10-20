@@ -1,0 +1,22 @@
+version: "3"
+
+vars:
+  cilium_ns: "cilium"
+  cilium_version: "1.16.3"
+
+tasks:
+  install:
+    cmds:
+    - helm upgrade --install cilium cilium/cilium --version {{ .cilium_version }} --create-namespace --namespace {{ .cilium_ns }} --values 0.task/cilium/cilium-values.yaml
+  uninstall:
+    cmds:
+    - helm uninstall cilium --namespace {{ .cilium_ns }}
+  check-ns:
+    cmds:
+    - kubectl get ns {{ .cilium_ns }}
+  watch-ns:
+    cmds:
+    - watch kubectl get pods -n {{ .cilium_ns }}
+  cilium:
+    cmds:
+    - cilium {{ .CLI_ARGS }}

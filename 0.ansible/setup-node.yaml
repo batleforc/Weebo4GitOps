@@ -1,0 +1,48 @@
+- hosts: "all"
+  become: true
+  tasks:
+    - name: "Update and upgrade apt packages"
+      apt:
+        update_cache: yes
+        upgrade: "yes"
+    - name: "Install needed packages"
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - curl
+        - gnupg
+        - software-properties-common
+        - open-iscsi
+        - nfs-common
+        - jq
+        - htop
+        - vim
+        - git
+        - iptables
+    - name: "Check if oh my bash is installed"
+      shell: "test -d ~/.oh-my-bash"
+      register: oh_my_bash_installed
+      ignore_errors: true
+    - name: "Install oh my bash"
+      shell: 'bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"'
+      when: oh_my_bash_installed.rc != 0
+    - name: "Enable iscsi_tcp"
+      shell: "modprobe iscsi_tcp"
+      become: true
+    - name: "Enable enable iscsi demon"
+      shell: "systemctl -q enable iscsid"
+      become: true
+    - name: "Disable Swap"
+      shell: "swapoff -a"
+      become: true
+    - name: "Setup sysctl watches"
+      shell: "sysctl -w fs.inotify.max_user_watches=1000000"
+    - name: "Setup sysctl instances"
+      shell: "sysctl -w fs.inotify.max_user_instances=1000000"
+    - name: "Enable ip forwarding"
+      shell: "sysctl -w net.ipv4.ip_forward=1"
+    - name: "Enable ip6 forwarding"
+      shell: "sysctl -w net.ipv6.conf.all.forwarding=1"
+    - name: "Enable ipv4 forwarding"
+      shell: "sysctl -w net.ipv4.conf.all.forwarding=1"

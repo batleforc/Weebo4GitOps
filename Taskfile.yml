@@ -11,9 +11,14 @@ includes:
     taskfile: 0.task/argocd/argo.yaml
   sops:
     taskfile: 0.task/sops/taskfile.yaml
+  cilium:
+    taskfile: 0.task/cilium/taskfile.yaml
 
 tasks:
   hello:
     cmds:
     - echo "Hello World"
+  kubectl:
+    cmds:
+    - kubectl {{ .CLI_ARGS }}
 

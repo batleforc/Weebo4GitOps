@@ -1,0 +1,18 @@
+kube-controller-manager-arg:
+- "bind-address=0.0.0.0"
+- "allocate-node-cidrs"
+kube-proxy-arg:
+- "metrics-bind-address=0.0.0.0"
+kube-scheduler-arg:
+- "bind-address=0.0.0.0"
+etcd-expose-metrics: true
+write-kubeconfig-mode: 0644
+disable: traefik, servicelb
+disble-kube-proxy: true # --disable-kube-proxy possibly need to be added directly in the service but not sure
+cluster-cidr: 10.42.0.0/16,2001:cafe:42::/56
+service-cidr: 10.43.0.0/16,2001:cafe:43::/112
+flannel-backend: none
+disable-network-policy: true
+node-label:
+- "kubernetes-host="
+- "weebo-k3s-master=true"

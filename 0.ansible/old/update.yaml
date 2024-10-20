@@ -1,0 +1,69 @@
+- hosts: "master"
+  become: true
+  vars:
+    cilium_cli_arch: "amd64"
+  tasks:
+  - name: apt
+    apt:
+      update_cache: yes
+      upgrade: "yes"
+  - name: "Install packages"
+    apt:
+      name: "{{ item }}"
+      state: present
+    become: true
+    with_items:
+    - curl
+    - open-iscsi
+    - nfs-common
+    - jq
+    - htop
+  - name: "Enable iscsi_tcp"
+    shell: "modprobe iscsi_tcp"
+    become: true
+  - name: "Enable enable iscsi demon"
+    shell: "systemctl -q enable iscsid"
+    become: true
+  - name: "Disable Swap"
+    shell: "swapoff -a"
+    become: true
+  - name: Set Cli version cilium
+    uri:
+      url: "https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt"
+      return_content: true
+    register: cilium_cli_version
+  - name: Download cilium archive
+    shell: "curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/{{cilium_cli_version['content']|replace('\n', '') }}/cilium-linux-{{cilium_cli_arch}}.tar.gz{,.sha256sum}"
+  - name: Verify cilium archive
+    shell: "sha256sum --check cilium-linux-{{cilium_cli_arch}}.tar.gz.sha256sum"
+  - name: Ectract to /usr/local/bin
+    shell: "tar xzvfC cilium-linux-{{cilium_cli_arch}}.tar.gz /usr/local/bin"
+    become: true
+  - name: Clean tar
+    shell: "rm -f cilium-linux-{{cilium_cli_arch}}.tar.gz{,.sha256sum}"
+  - name: "Setup sysctl watches"
+    shell: "sysctl -w fs.inotify.max_user_watches=1000000"
+  - name: "Setup sysctl instances"
+    shell: "sysctl -w fs.inotify.max_user_instances=1000000"
+  - name: "Enable ip forwarding"
+    shell: "sysctl -w net.ipv4.ip_forward=1"
+  - name: "Enable ip6 forwarding"
+    shell: "sysctl -w net.ipv6.conf.all.forwarding=1"
+  - name: "Enable ipv4 forwarding"
+    shell: "sysctl -w net.ipv4.conf.all.forwarding=1"
+  - name: "Create subdir for k3s conf"
+    file:
+      path: "/etc/rancher/k3s"
+      state: directory
+      owner: debian
+      group: debian
+      mode: 0744
+  - name: "Copy config.yaml to /etc/rancher/k3s/config.yaml"
+    copy:
+      src: "config.yaml"
+      dest: "/etc/rancher/k3s/config.yaml"
+      owner: debian
+      group: debian
+      mode: 0644
+# https://stackoverflow.com/questions/69199553/how-to-change-the-file-system-watcher-limit-in-kubernetes-fs-inotify-max-user-w
+# https://www.ubuntu18.com/ubuntu-change-ssh-port/

@@ -1,0 +1,27 @@
+- hosts: "worker"
+  tasks:
+    - name: "Update and upgrade apt packages"
+      apt:
+        update_cache: yes
+        upgrade: "yes"
+      become: true
+    - name: "Install curl"
+      apt:
+        name: curl
+        state: present
+      become: true
+    - name: "Install iptables"
+      apt:
+        name: iptables
+        state: present
+      become: true
+    - name: "Copy token"
+      copy:
+        src: node-token
+        dest: /tmp/node-token
+    - name: "Set k3S_TOKEN"
+      set_fact:
+        k3s_token: "{{ lookup('ansible.builtin.file', 'node-token') }}"
+    - name: "Install K3S"
+      shell: curl -sfL https://get.k3s.io | K3S_URL="https://{{k3s_master}}:6443" K3S_TOKEN="{{k3s_token}}" sh -
+      when: k3s_install == "true"
