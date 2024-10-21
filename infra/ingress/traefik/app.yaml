@@ -21,6 +21,9 @@ spec:
           otlp:
             endpoint: "tempo.monitoring.svc.cluster.local:4317"
             enabled: true
+        service:
+          annotations:
+            io.cilium/lb-ipam-ips: 37.187.142.160
         metrics:
           prometheus:
             service:
