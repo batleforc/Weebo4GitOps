@@ -6,6 +6,8 @@ metadata:
   namespace: outdns
   labels:
     app: dns-server
+  annotations:
+    io.cilium/lb-ipam-ips: 37.187.142.160
 spec:
   ports:
     - name: tcp
@@ -16,20 +18,7 @@ spec:
       protocol: TCP
       port: 953
       targetPort: 953
-  selector:
-    app: dns-server
-  type: LoadBalancer
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dns-server2
-  namespace: outdns
-  labels:
-    app: dns-server
-spec:
-  ports:
-    - name: udo
+    - name: udp
       protocol: UDP
       port: 53
       targetPort: 53
