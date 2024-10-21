@@ -2,7 +2,7 @@ version: "3"
 
 vars:
   cilium_ns: "cilium"
-  cilium_version: "1.16.3"
+  cilium_version: "1.17.0-pre.1"
 
 tasks:
   install:
