@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: outdns
   annotations:
-    lbipam.cilium.io/sharing-cross-namespace: "outdns,traefik,*"
+    lbipam.cilium.io/sharing-cross-namespace: "outdns,traefik,Outdns,Traefik,*"
