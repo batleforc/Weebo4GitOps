@@ -1,0 +1,17 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "first-pool"
+spec:
+  blocks:
+  - start: "37.187.142.160"
+    stop: "37.187.142.160"
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default-l2-announcement-policy
+  namespace: kube-system
+spec:
+  externalIPs: true
+  loadBalancerIPs: true
