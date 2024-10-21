@@ -7,6 +7,7 @@ metadata:
   labels:
     app: dns-server
   annotations:
+  lbipam.cilium.io/sharing-key: "weebo3-gate"
     io.cilium/lb-ipam-sharing-key: "weebo3-gate"
     io.cilium/lb-ipam-ips: 37.187.142.160
     externalTrafficPolicy: Cluster
