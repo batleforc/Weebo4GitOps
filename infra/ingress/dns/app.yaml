@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://git.weebo.fr/sandbox/gitops-local'
+    repoURL: 'https://github.com/batleforc/Weebo4GitOps.git'
     path: 'infra/helm/outdns'
     helm:
       releaseName: outdns

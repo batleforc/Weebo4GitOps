@@ -22,7 +22,7 @@ tasks:
         sh: task argo:get-password
     cmds:
     - task: context
-    - argocd app create main --repo $ARGO_APP_REPO --directory-recurse --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default --sync-policy automated
+    - argocd app create main --repo $ARGO_APP_REPO --directory-recurse --path infra/app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default --sync-policy automated --directory-recurse
     - argocd login localhost:8080 --username admin --password {{.PASSWORD}} --insecure
     - argocd app sync main
   delete-main:
