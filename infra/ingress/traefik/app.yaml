@@ -25,6 +25,7 @@ spec:
           annotations:
             io.cilium/lb-ipam-ips: 37.187.142.160
             io.cilium/lb-ipam-sharing-key: "weebo3-gate"
+            externalTrafficPolicy: Cluster
         metrics:
           prometheus:
             service:
