@@ -41,6 +41,9 @@ spec:
   duration: 8928h
   renewBefore: 8184h
   commonName: zitadel.zitadel
+  dnsNames:
+  - zitadel
+  - zitadel.zitadel
   issuerRef:
     name: zitadel-ca-issuer
     kind: Issuer
@@ -56,6 +59,9 @@ spec:
   duration: 8928h
   renewBefore: 8184h
   commonName: pgsql-zitadel-postgresql.zitadel
+  dnsNames:
+  - pgsql-zitadel-postgresql
+  - pgsql-zitadel-postgresql.zitadel
   issuerRef:
     name: zitadel-ca-issuer
     kind: Issuer
