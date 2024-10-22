@@ -59,6 +59,7 @@ spec:
           name: default
           create: false
         podAnnotations:
+          # https://bank-vaults.dev/docs/mutating-webhook/vault-agent-templating/
           vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
           vault.security.banzaicloud.io/vault-role: "default"
           vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
