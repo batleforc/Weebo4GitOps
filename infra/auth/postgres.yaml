@@ -27,6 +27,7 @@ spec:
             adminPasswordKey: "admin-password"
         serviceAccount:
           name: default
+          automountServiceAccountToken: true
         primary:
           automountServiceAccountToken: true
           podAnnotations:
