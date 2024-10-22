@@ -69,6 +69,9 @@ spec:
   # Define a list of namespaces or use ["*"] for all namespaces.
   caNamespaces:
   - "vswh"
+  - "zitadel"
+  - "harbor"
+
 
   # Describe where you would like to store the Vault unseal keys and root token.
   unsealConfig:
