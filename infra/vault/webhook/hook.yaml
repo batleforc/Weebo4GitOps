@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vault-operator
+  name: vault-webhook
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
@@ -10,12 +10,12 @@ spec:
   syncPolicy:
     automated: {}
   source:
-    chart: vault-operator
+    chart: vault-secrets-webhook
     repoURL: ghcr.io/bank-vaults/helm-charts
-    # https://github.com/bank-vaults/vault-operator/pkgs/container/helm-charts%2Fvault-operator
-    targetRevision: 1.22.3
+    # https://github.com/bank-vaults/vault-operator/pkgs/container/helm-charts%2Fvault-secrets-webhook
+    targetRevision: 1.21.3
     helm:
-      releaseName: vault
+      releaseName: vault-webhook
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: vault
+    namespace: vault-infra
