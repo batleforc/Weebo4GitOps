@@ -63,6 +63,7 @@ spec:
           vault.security.banzaicloud.io/vault-role: "default"
           vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
           vault.security.banzaicloud.io/vault-path: "kubernetes"
+          vault.security.banzaicloud.io/vault-agent: "true"
         ingress:
           enabled: true
           annotations:
@@ -91,12 +92,14 @@ spec:
             vault.security.banzaicloud.io/vault-role: "default"
             vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
             vault.security.banzaicloud.io/vault-path: "kubernetes"
+            vault.security.banzaicloud.io/vault-agent: "true"
         setupJob:
           podAnnotations:
             vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
             vault.security.banzaicloud.io/vault-role: "default"
             vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
             vault.security.banzaicloud.io/vault-path: "kubernetes"
+            vault.security.banzaicloud.io/vault-agent: "true"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: zitadel
