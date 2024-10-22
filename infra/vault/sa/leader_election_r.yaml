@@ -10,6 +10,7 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+  namespace: vault
   name: leader-election-role
 rules:
 - apiGroups:
