@@ -40,6 +40,7 @@ spec:
   secretName: zitadel-cert
   duration: 8928h
   renewBefore: 8184h
+  commonName: zitadel.zitadel
   issuerRef:
     name: zitadel-ca-issuer
     kind: Issuer
@@ -54,6 +55,7 @@ spec:
   secretName: postgres-cert
   duration: 8928h
   renewBefore: 8184h
+  commonName: pgsql-zitadel-postgresql.zitadel
   issuerRef:
     name: zitadel-ca-issuer
     kind: Issuer
