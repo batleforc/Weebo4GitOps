@@ -85,6 +85,18 @@ spec:
           - hosts:
             - login.weebo.fr
             secretName: login-weebo-tls
+        initJob:
+          podAnnotations:
+            vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
+            vault.security.banzaicloud.io/vault-role: "default"
+            vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
+            vault.security.banzaicloud.io/vault-path: "kubernetes"
+        setupJob:
+          podAnnotations:
+            vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
+            vault.security.banzaicloud.io/vault-role: "default"
+            vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
+            vault.security.banzaicloud.io/vault-path: "kubernetes"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: zitadel
