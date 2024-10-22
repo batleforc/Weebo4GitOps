@@ -1,0 +1,14 @@
+version: "3"
+
+tasks:
+  exec-zitadel:
+    dir: ./0.terraform/zitadel
+    env:
+      VAULT_CACERT: ../../vault-ca.crt
+    vars:
+      PASSWORD:
+        sh: task vault:get-token
+    cmds:
+    - task vault:get-ca
+    - terraform init
+    - VAULT_TOKEN={{.PASSWORD}} VAULT_TLS_SERVER_NAME=vault.vault terraform apply -auto-approve
