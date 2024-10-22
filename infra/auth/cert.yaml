@@ -38,8 +38,8 @@ metadata:
   namespace: zitadel
 spec:
   secretName: zitadel-cert
-  duration: 365d
-  renewBefore: 360d
+  duration: 8928h
+  renewBefore: 8184h
   issuerRef:
     name: zitadel-ca-issuer
     kind: Issuer
@@ -52,8 +52,8 @@ metadata:
   namespace: zitadel
 spec:
   secretName: postgres-cert
-  duration: 365d
-  renewBefore: 360d
+  duration: 8928h
+  renewBefore: 8184h
   issuerRef:
     name: zitadel-ca-issuer
     kind: Issuer
