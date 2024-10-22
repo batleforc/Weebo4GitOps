@@ -25,6 +25,8 @@ spec:
           existingSecret: postgres-zitadel
           secretKeys:
             adminPasswordKey: "admin-password"
+        serviceAccount:
+          name: default
         primary:
           automountServiceAccountToken: true
           podAnnotations:
