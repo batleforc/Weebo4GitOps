@@ -55,6 +55,14 @@ spec:
           dbSslCaCrtSecret: postgres-cert
           dbSslAdminCrtSecret: postgres-cert
           dbSslUserCrtSecret: zitadel-cert
+        servuceAccount:
+          name: default
+          create: false
+        podAnnotations:
+          vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
+          vault.security.banzaicloud.io/vault-role: "default"
+          vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
+          vault.security.banzaicloud.io/vault-path: "kubernetes"
         ingress:
           enabled: true
           annotations:
