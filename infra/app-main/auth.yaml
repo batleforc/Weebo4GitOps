@@ -14,5 +14,4 @@ spec:
     path: infra/auth
     repoURL: https://github.com/batleforc/Weebo4GitOps.git
     targetRevision: HEAD
-    directory:
-      recurse: true
+
