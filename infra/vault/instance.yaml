@@ -130,7 +130,7 @@ spec:
     - name: master_oidc # This policy will be used by the terraform script to generate the different key
       rules: path "oidc/*" { capabilities = ["create", "read", "update", "delete", "list"] }
     - name: zitadel-secret
-      rules: path "secret/data/zitadel/*" { capabilities = ["read", "list"] }
+      rules: path "secret/zitadel/*" { capabilities = ["read", "list"] }
     auth:
     - type: kubernetes
       roles:
