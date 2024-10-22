@@ -16,6 +16,8 @@ spec:
     targetRevision: 1.21.3
     helm:
       releaseName: vault-webhook
+      valuesObject:
+        replicaCount: 1
   destination:
     server: "https://kubernetes.default.svc"
     namespace: vault-infra
