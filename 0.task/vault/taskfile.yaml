@@ -1,0 +1,25 @@
+version: "3"
+
+env:
+  VAULT_ADDR: "https://127.0.0.1:8200"
+  VAULT_CACERT: ./vault-ca.crt
+
+
+tasks:
+  port-forward:
+    cmds:
+    - kubectl port-forward vault-0 -n vault 8200
+  get-ca:
+    cmds:
+    - kubectl get -n vault secret vault-tls -o jsonpath="{.data.ca\.crt}" | base64 --decode > ./vault-ca.crt
+  vault:
+    cmds:
+    - vault {{ .CLI_ARGS }}
+  install-cli:
+    cmds:
+    - wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    - echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    - echo "Input password" && sudo apt update && sudo apt install vault
+  get-token:
+    cmds:
+    - kubectl get -n vault secrets vault-unseal-keys -o jsonpath={.data.vault-root} | base64 --decode

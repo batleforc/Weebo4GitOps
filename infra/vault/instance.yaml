@@ -41,15 +41,15 @@ spec:
   serviceType: ClusterIP
 
   # Request an Ingress controller with the default configuration
-  # ingress:
-  #   # Specify Ingress object annotations here, if TLS is enabled (which is by default)
-  #   # the operator will add NGINX, Traefik and HAProxy Ingress compatible annotations
-  #   # to support TLS backends
-  #   annotations: {}
-  #   # Override the default Ingress specification here
-  #   # This follows the same format as the standard Kubernetes Ingress
-  #   # See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#ingressspec-v1beta1-extensions
-  #   spec: {}
+  ingress:
+    # Specify Ingress object annotations here, if TLS is enabled (which is by default)
+    # the operator will add NGINX, Traefik and HAProxy Ingress compatible annotations
+    # to support TLS backends
+    annotations: {}
+    # Override the default Ingress specification here
+    # This follows the same format as the standard Kubernetes Ingress
+    # See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#ingressspec-v1beta1-extensions
+    spec: {}
 
 
   volumes:
@@ -124,6 +124,8 @@ spec:
     policies:
     - name: allow_secrets
       rules: path "secret/*" { capabilities = ["create", "read", "update", "delete", "list"] }
+    - name: master_oidc # This policy will be used by the terraform script to generate the different key
+      rules: path "oidc/*" { capabilities = ["create", "read", "update", "delete", "list"] }
     auth:
     - type: kubernetes
       roles:
@@ -133,6 +135,11 @@ spec:
         bound_service_account_namespaces: ["vault", "vswh"]
         policies: allow_secrets
         ttl: 1h
+      - name: zitadel
+        bound_service_account_names: ["zitadel", "vault-secrets-webhook"]
+        bound_service_account_namespaces: ["zitadel", "vswh"]
+        policies: master_oidc
+        ttl: 1h
 
     secrets:
     - path: secret
@@ -140,6 +147,9 @@ spec:
       description: General secrets.
       options:
         version: 2
+    - path: oidc
+      type: kv
+      description: OIDC secrets.
 
     # Allows writing some secrets to Vault (useful for development purposes).
     # See https://www.vaultproject.io/docs/secrets/kv/index.html for more information.

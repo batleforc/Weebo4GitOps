@@ -13,6 +13,8 @@ includes:
     taskfile: 0.task/sops/taskfile.yaml
   cilium:
     taskfile: 0.task/cilium/taskfile.yaml
+  vault:
+    taskfile: 0.task/vault/taskfile.yaml
 
 tasks:
   hello:
