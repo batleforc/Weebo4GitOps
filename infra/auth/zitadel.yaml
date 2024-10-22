@@ -37,7 +37,7 @@ spec:
                     Type: 1
             Database:
               postgres:
-                Host: db-postgresql
+                Host: pgsql-zitadel-postgresql
                 Port: 5432
                 Database: zitadel
                 MaxOpenConns: 20
