@@ -26,6 +26,7 @@ spec:
           secretKeys:
             adminPasswordKey: "admin-password"
         primary:
+          automountServiceAccountToken: true
           annotations:
             vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
             vault.security.banzaicloud.io/vault-role: "default"
