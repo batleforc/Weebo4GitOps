@@ -26,6 +26,10 @@ spec:
             lbipam.cilium.io/sharing-key: "weebo3-gate"
             lbipam.cilium.io/ips: "37.187.142.160"
             lbipam.cilium.io/sharing-cross-namespace: "*"
+        providers:
+          kubernetesCRD:
+            enabled: true
+            allowCrossNamespace: true
         metrics:
           prometheus:
             service:
