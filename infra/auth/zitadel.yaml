@@ -14,6 +14,7 @@ spec:
     helm:
       releaseName: zitadel-zitadel
       valuesObject:
+        replicaCount: 1
         zitadel:
           masterkeySecretName: zitadel-zitadel
           configSecretName: zitadel-zitadel
