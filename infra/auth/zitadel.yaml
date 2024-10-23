@@ -94,8 +94,6 @@ spec:
             vault.security.banzaicloud.io/vault-tls-secret: "vault-tls"
             vault.security.banzaicloud.io/vault-path: "kubernetes"
             vault.security.banzaicloud.io/vault-agent: "true"
-            vault.security.banzaicloud.io/vault-agent-configmap: "zitadel-secret-conf"
-            vault.security.banzaicloud.io/vault-agent-once: "true"
         setupJob:
           podAnnotations:
             vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
