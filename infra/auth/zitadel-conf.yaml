@@ -25,14 +25,16 @@ data:
     }
     template {
       contents = <<EOH
-        {{- with secret "secrets/data/zitadel/pg" }}
         Database:
           Postgres:
             User:
-              Password: "{{ .Data.password_user }}"
+              {{- with secret "secret/data/zitadel/pg#password_user" }}
+              Password: "{{ . }}"
+              {{- end }}
             Admin:
+              {{- with secret "secrets/data/zitadel/pg#password_admin"
               Password: "{{ .Data.password_admin }}"
-        {{ end }}
+              {{- end }}
       EOH
       destination = "/zitadel-secret-config-yaml/config-yaml"
       command     = "/bin/sh -c \"kill -HUP $(pidof vault-demo-app) || true\""
