@@ -69,7 +69,7 @@ spec:
           enabled: true
           annotations:
             kubernetes.io/ingress.class: "traefik"
-            cert-manager.io/cluster-issuer: "letsencrypt-prod"
+            cert-manager.io/cluster-issuer: "prod-letsencrypt-issuer"
             haproxy-ingress.github.io/timeout-client: 180s
             haproxy-ingress.github.io/proxy-body-size: 512m
             haproxy-ingress.github.io/backend-protocol: h2
