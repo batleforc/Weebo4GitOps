@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-page
+  namespace: traefik
+spec:
+  selector:
+    matchLabels:
+      app: error-page
+  template:
+    metadata:
+      labels:
+        app: error-page
+    spec:
+      containers:
+      - name: error-page
+        image: ghcr.io/tarampampam/error-pages:3.3
+        env:
+        - name: "TEMPLATE_NAME"
+          value: "ghost"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
