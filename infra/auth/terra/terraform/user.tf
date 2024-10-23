@@ -30,19 +30,19 @@ resource "zitadel_user_grant" "batleforc_grafana" {
   user_id    = zitadel_human_user.batleforc.id
 }
 
-resource "zitadel_user_grant" "batleforc_tekton" {
-  project_id = zitadel_project.tekton.id
-  org_id     = zitadel_org.weebo.id
-  role_keys  = [zitadel_project_role.tekton_admin.role_key]
-  user_id    = zitadel_human_user.batleforc.id
-}
+# resource "zitadel_user_grant" "batleforc_tekton" {
+#   project_id = zitadel_project.tekton.id
+#   org_id     = zitadel_org.weebo.id
+#   role_keys  = [zitadel_project_role.tekton_admin.role_key]
+#   user_id    = zitadel_human_user.batleforc.id
+# }
 
-resource "zitadel_user_grant" "batleforc_gitea" {
-  project_id = zitadel_project.gitea.id
-  org_id     = zitadel_org.weebo.id
-  role_keys  = [zitadel_project_role.gitea_admin.role_key]
-  user_id    = zitadel_human_user.batleforc.id
-}
+# resource "zitadel_user_grant" "batleforc_gitea" {
+#   project_id = zitadel_project.gitea.id
+#   org_id     = zitadel_org.weebo.id
+#   role_keys  = [zitadel_project_role.gitea_admin.role_key]
+#   user_id    = zitadel_human_user.batleforc.id
+# }
 
 resource "zitadel_user_grant" "batleforc_harbor" {
   project_id = zitadel_project.harbor.id
@@ -51,12 +51,12 @@ resource "zitadel_user_grant" "batleforc_harbor" {
   user_id    = zitadel_human_user.batleforc.id
 }
 
-resource "zitadel_user_grant" "batleforc_sonarqube" {
-  project_id = zitadel_project.sonarqube.id
-  org_id     = zitadel_org.weebo.id
-  role_keys  = [zitadel_project_role.sonarqube_admin.role_key]
-  user_id    = zitadel_human_user.batleforc.id
-}
+# resource "zitadel_user_grant" "batleforc_sonarqube" {
+#   project_id = zitadel_project.sonarqube.id
+#   org_id     = zitadel_org.weebo.id
+#   role_keys  = [zitadel_project_role.sonarqube_admin.role_key]
+#   user_id    = zitadel_human_user.batleforc.id
+# }
 
 resource "zitadel_user_grant" "batleforc_cluster" {
   project_id = zitadel_project.cluster.id
@@ -64,22 +64,16 @@ resource "zitadel_user_grant" "batleforc_cluster" {
   role_keys  = [zitadel_project_role.cluster_admin.role_key]
   user_id    = zitadel_human_user.batleforc.id
 }
-resource "zitadel_user_grant" "batleforc_longhorn" {
-  project_id = zitadel_project.longhorn.id
-  org_id     = zitadel_org.weebo.id
-  role_keys  = [zitadel_project_role.longhorn_admin.role_key]
-  user_id    = zitadel_human_user.batleforc.id
-}
-resource "zitadel_user_grant" "batleforc_grocy" {
-  project_id = zitadel_project.grocy.id
-  org_id     = zitadel_org.weebo.id
-  role_keys  = [zitadel_project_role.grocy_admin.role_key]
-  user_id    = zitadel_human_user.batleforc.id
-}
 
-resource "zitadel_user_grant" "m2m-middleware" {
-  project_id = zitadel_project.middle-api.id
-  org_id     = zitadel_org.weebo.id
-  role_keys  = [zitadel_project_role.middle-api-discord.role_key, zitadel_project_role.middle-api-gotify.role_key]
-  user_id    = zitadel_machine_user.m2m-alertmanager.id
-}
+# resource "zitadel_user_grant" "batleforc_longhorn" {
+#   project_id = zitadel_project.longhorn.id
+#   org_id     = zitadel_org.weebo.id
+#   role_keys  = [zitadel_project_role.longhorn_admin.role_key]
+#   user_id    = zitadel_human_user.batleforc.id
+# }
+# resource "zitadel_user_grant" "batleforc_grocy" {
+#   project_id = zitadel_project.grocy.id
+#   org_id     = zitadel_org.weebo.id
+#   role_keys  = [zitadel_project_role.grocy_admin.role_key]
+#   user_id    = zitadel_human_user.batleforc.id
+# }

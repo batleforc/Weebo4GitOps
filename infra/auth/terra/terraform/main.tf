@@ -2,11 +2,11 @@ terraform {
   required_providers {
     zitadel = {
       source  = "zitadel/zitadel"
-      version = "1.0.0-alpha.19"
+      version = "2.0.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.23.0"
+      version = "2.33.0"
     }
   }
 }
@@ -74,8 +74,8 @@ resource "zitadel_trigger_actions" "role_mapper_trigger_creation" {
   trigger_type = "TRIGGER_TYPE_PRE_ACCESS_TOKEN_CREATION"
 }
 
-resource "zitadel_smtp_config" "default" {
-  sender_address = "zitadel@weebo.fr"
-  sender_name    = "no-reply-zitadel"
-  host           = "mailcatcher.mailcatcher.svc.cluster.local:1025"
-}
+# resource "zitadel_smtp_config" "default" {
+#   sender_address = "zitadel@weebo.fr"
+#   sender_name    = "no-reply-zitadel"
+#   host           = "mailcatcher.mailcatcher.svc.cluster.local:1025"
+# }
