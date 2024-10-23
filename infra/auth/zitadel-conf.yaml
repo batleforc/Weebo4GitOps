@@ -25,6 +25,7 @@ data:
     }
     template {
       contents = <<EOH
+
         Database:
           Postgres:
             User:
