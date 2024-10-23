@@ -30,6 +30,10 @@ spec:
           kubernetesCRD:
             enabled: true
             allowCrossNamespace: true
+          kubernetesIngress:
+            allowExternalNameServices: true
+            publishedService:
+              enabled: true
         metrics:
           prometheus:
             service:
