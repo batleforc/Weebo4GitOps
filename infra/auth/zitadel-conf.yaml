@@ -33,7 +33,7 @@ data:
               {{- end }}
             Admin:
               {{- with secret "secrets/data/zitadel/pg#password_admin"
-              Password: "{{ .Data.password_admin }}"
+              Password: "{{ . }}"
               {{- end }}
       EOH
       destination = "/zitadel-secret-config-yaml/config-yaml"

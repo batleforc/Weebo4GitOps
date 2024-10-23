@@ -19,4 +19,4 @@ tasks:
     - watch kubectl get pods -n {{ .cilium_ns }}
   cilium:
     cmds:
-    - cilium {{ .CLI_ARGS }}
+    - cilium -n cilium {{ .CLI_ARGS }}
