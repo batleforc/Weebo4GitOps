@@ -14,3 +14,4 @@ spec:
       port: 8080
     middlewares:
     - name: test-errors
+      namespace: traefik

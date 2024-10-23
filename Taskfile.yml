@@ -25,4 +25,7 @@ tasks:
   kubectl:
     cmds:
     - kubectl {{ .CLI_ARGS }}
+  traefik:
+    cmds:
+    - task kubectl --  port-forward $(task kubectl -- get pods --selector "app.kubernetes.io/name=traefik" --output=name -n traefik) -n traefik 9000:9000
 
