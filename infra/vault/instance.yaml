@@ -41,7 +41,7 @@ spec:
   serviceType: ClusterIP
 
   # Request an Ingress controller with the default configuration
-  ingress: null
+  ingress:
   # # Specify Ingress object annotations here, if TLS is enabled (which is by default)
   # # the operator will add NGINX, Traefik and HAProxy Ingress compatible annotations
   # # to support TLS backends
