@@ -39,7 +39,8 @@ provider "zitadel" {
 }
 
 resource "zitadel_org" "weebo" {
-  name = "weebo"
+  name       = "weebo"
+  is_default = true
 }
 
 resource "zitadel_action" "role_mapper" {
