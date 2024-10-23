@@ -35,6 +35,7 @@ provider "kubernetes" {
 provider "zitadel" {
   domain           = var.domain
   jwt_profile_file = "${var.path}/zitadel-admin-sa.json"
+  port             = 443
 }
 
 resource "zitadel_org" "weebo" {
