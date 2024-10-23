@@ -25,7 +25,7 @@ spec:
               Type: "otel"
             Telemetry:
               Endpoints: "http://tempo.monitoring.svc.cluster.local:4317"
-              Enabled: true
+              Enabled: false
             TLS:
               Enabled: false
             FirstInstance:
