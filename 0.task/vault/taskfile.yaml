@@ -12,12 +12,15 @@ tasks:
   get-ca:
     cmds:
     - kubectl get -n vault secret vault-tls -o jsonpath="{.data.ca\.crt}" | base64 --decode > ./vault-ca.crt
-  vault:
+  vault-log:
     vars:
       VAULT_TOKEN:
         sh: task vault:get-token
     cmds:
     - VAULT_TOKEN={{.VAULT_TOKEN}} vault {{ .CLI_ARGS }}
+  vault:
+    cmds:
+    - vault {{ .CLI_ARGS }}
   install-cli:
     cmds:
     - wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
