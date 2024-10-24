@@ -36,7 +36,7 @@ resource "kubernetes_secret_v1" "vault_keyid" {
     namespace = "vault"
   }
   data = {
-    clientID = zitadel_application_oidc.eclipse_che.client_id
-    secret   = zitadel_application_oidc.eclipse_che.client_secret
+    clientID = zitadel_application_oidc.vault_app.client_id
+    secret   = zitadel_application_oidc.vault_app.client_secret
   }
 }
