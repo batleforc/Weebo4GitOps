@@ -28,6 +28,13 @@ spec:
         serviceAccount:
           name: default
           automountServiceAccountToken: true
+        resources:
+          requests:
+            memory: "150Mi"
+            cpu: "300m"
+          limits:
+            memory: "2Gi"
+            cpu: "100m"
         primary:
           automountServiceAccountToken: true
           podAnnotations:
