@@ -15,5 +15,6 @@ configMapGenerator:
   - terraform/grafana.tf
   - terraform/harbor.tf
   - terraform/cluster.tf
+  - terraform/vault.tf
 generatorOptions:
   disableNameSuffixHash: true
