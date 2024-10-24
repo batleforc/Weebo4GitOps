@@ -21,7 +21,7 @@ resource "zitadel_application_oidc" "vault_app" {
   response_types              = ["OIDC_RESPONSE_TYPE_ID_TOKEN"]
   grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
   app_type                    = "OIDC_APP_TYPE_WEB"
-  auth_method_type            = "OIDC_AUTH_METHOD_TYPE_BASIC"
+  auth_method_type            = "OIDC_AUTH_METHOD_TYPE_POST"
   access_token_type           = "OIDC_TOKEN_TYPE_BEARER"
   access_token_role_assertion = true
   id_token_role_assertion     = true
