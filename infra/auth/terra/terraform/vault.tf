@@ -17,7 +17,7 @@ resource "zitadel_application_oidc" "vault_app" {
   org_id                      = zitadel_org.weebo.id
   project_id                  = zitadel_project.vault.id
   name                        = "vault"
-  redirect_uris               = ["http://localhost:8250/oidc/callback", "http://localhost:8200/ui/vault/auth/oidc/oidc/callback"]
+  redirect_uris               = ["https://localhost:8250/oidc/callback", "https://localhost:8200/ui/vault/auth/oidc/oidc/callback"]
   response_types              = ["OIDC_RESPONSE_TYPE_CODE"]
   grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
   app_type                    = "OIDC_APP_TYPE_WEB"
@@ -27,7 +27,7 @@ resource "zitadel_application_oidc" "vault_app" {
   id_token_role_assertion     = true
   id_token_userinfo_assertion = true
   dev_mode                    = true
-  additional_origins          = ["http://localhost:8250", "http://localhost:8200"]
+  additional_origins          = ["https://localhost:8250", "https://localhost:8200"]
 }
 
 resource "kubernetes_secret_v1" "vault_keyid" {

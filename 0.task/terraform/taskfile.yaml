@@ -29,3 +29,18 @@ tasks:
       KUBECONFIG: "../../../../kubeconfig.yaml"
     cmds:
     - TF_VAR_path=./ TF_VAR_kubepath=./kube terraform destroy -auto-approve
+  exec-vault-oidc:
+    dir: ./0.terraform/vault-oidc
+    env:
+      VAULT_CACERT: ../../vault-ca.crt
+    vars:
+      VAULT_TOKEN:
+        sh: task vault:get-token
+      OIDC_CLIENT_ID:
+        sh: task kubectl -- get secret vault-auth -n vault -o jsonpath="{.data.clientID}" | base64 --decode
+      OIDC_CLIENT_SECRET:
+        sh: task kubectl -- get secret vault-auth -n vault -o jsonpath="{.data.secret}" | base64 --decode
+    cmds:
+    - task vault:get-ca
+    - terraform init
+    - VAULT_TLS_SERVER_NAME=vault.vault TF_VAR_vault_token={{.VAULT_TOKEN}} TF_VAR_oidc_client_id={{.OIDC_CLIENT_ID}} TF_VAR_oidc_client_secret={{.OIDC_CLIENT_SECRET}}  terraform apply -auto-approve
