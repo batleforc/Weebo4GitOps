@@ -28,8 +28,8 @@ spec:
             # Telemetry:
             #   Endpoints: "http://tempo.monitoring.svc.cluster.local:4317"
             #   Enabled: false
-            # TLS:
-            #   Enabled: false
+            TLS:
+              Enabled: false
             FirstInstance:
               Org:
                 Machine:
