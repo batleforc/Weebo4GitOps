@@ -131,6 +131,8 @@ spec:
       rules: path "oidc/*" { capabilities = ["create", "read", "update", "delete", "list"] }
     - name: zitadel-secret
       rules: path "secret/zitadel/*" { capabilities = ["read", "list"] }
+    - name: oidc_manager
+      rules: path "*" { capabilities = ["create", "read", "update", "delete", "list"]  }
     auth:
     - type: kubernetes
       roles:

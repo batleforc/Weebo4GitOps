@@ -12,6 +12,7 @@ resource "zitadel_project_role" "cluster_admin" {
   display_name = "Admin"
   group        = "admin"
 }
+
 resource "zitadel_project_role" "cluster_dev" {
   org_id       = zitadel_org.weebo.id
   project_id   = zitadel_project.cluster.id
@@ -19,6 +20,7 @@ resource "zitadel_project_role" "cluster_dev" {
   display_name = "Dev"
   group        = "dev"
 }
+
 resource "zitadel_project_role" "cluster_user" {
   org_id       = zitadel_org.weebo.id
   project_id   = zitadel_project.cluster.id
@@ -26,6 +28,7 @@ resource "zitadel_project_role" "cluster_user" {
   display_name = "User"
   group        = "user"
 }
+
 resource "zitadel_project_role" "cluster_gamer" {
   org_id       = zitadel_org.weebo.id
   project_id   = zitadel_project.cluster.id
