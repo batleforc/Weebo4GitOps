@@ -37,6 +37,7 @@ spec:
                     Username: "zitadel-admin-sa"
                     Name: "Admin"
                   MachineKey:
+                    ExpirationDate: "2027-01-01T00:00:00Z"
                     Type: 1
             Database:
               postgres:

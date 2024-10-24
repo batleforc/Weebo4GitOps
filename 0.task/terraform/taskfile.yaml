@@ -22,4 +22,4 @@ tasks:
     - mkdir -p kube
     - kubectl get secret -n zitadel terraform-apply-secret -o jsonpath='{.data.ca\.crt}' | base64 -d > ./kube/ca.crt
     - kubectl get secret -n zitadel terraform-apply-secret -o jsonpath='{.data.token}' | base64 -d > ./kube/token
-    - TF_VAR_path=./ TF_VAR_kubepath=./kube TF_VAR_kube_domain=https://37.187.142.160:6443 terraform apply -auto-approve
+    - TF_LOG=DEBUG TF_VAR_path=./ TF_VAR_kubepath=./kube TF_VAR_kube_domain=https://37.187.142.160:6443 terraform apply -auto-approve
