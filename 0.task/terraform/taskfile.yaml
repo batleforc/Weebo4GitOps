@@ -12,3 +12,14 @@ tasks:
     - task vault:get-ca
     - terraform init
     - VAULT_TOKEN={{.PASSWORD}} VAULT_TLS_SERVER_NAME=vault.vault terraform apply -auto-approve
+  exec-zitadel2:
+    dir: ./infra/auth/terra/terraform
+    env:
+      KUBECONFIG: "../../../../kubeconfig.yaml"
+    cmds:
+    - terraform init
+    - kubectl get secret -n zitadel zitadel-admin-sa -o jsonpath='{.data.zitadel-admin-sa\.json}' | base64 -d > zitadel-admin-sa.json
+    - mkdir -p kube
+    - kubectl get secret -n zitadel terraform-apply-secret -o jsonpath='{.data.ca\.crt}' | base64 -d > ./kube/ca.crt
+    - kubectl get secret -n zitadel terraform-apply-secret -o jsonpath='{.data.token}' | base64 -d > ./kube/token
+    - TF_VAR_path=./ TF_VAR_kubepath=./kube TF_VAR_kube_domain=https://37.187.142.160:6443 terraform apply -auto-approve
