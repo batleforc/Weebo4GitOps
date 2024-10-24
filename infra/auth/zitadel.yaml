@@ -23,13 +23,13 @@ spec:
           configmapConfig:
             ExternalSecure: true
             ExternalDomain: "login.weebo.fr"
-            Tracing:
-              Type: "otel"
-            Telemetry:
-              Endpoints: "http://tempo.monitoring.svc.cluster.local:4317"
-              Enabled: false
-            TLS:
-              Enabled: false
+            # Tracing:
+            #   Type: "otel"
+            # Telemetry:
+            #   Endpoints: "http://tempo.monitoring.svc.cluster.local:4317"
+            #   Enabled: false
+            # TLS:
+            #   Enabled: false
             FirstInstance:
               Org:
                 Machine:
