@@ -28,14 +28,14 @@ spec:
         serviceAccount:
           name: default
           automountServiceAccountToken: true
-        resources:
-          requests:
-            memory: "150Mi"
-            cpu: "300m"
-          limits:
-            memory: "2Gi"
-            cpu: "100m"
         primary:
+          resources:
+            requests:
+              memory: "150Mi"
+              cpu: "300m"
+            limits:
+              memory: "2Gi"
+              cpu: "100m"
           automountServiceAccountToken: true
           podAnnotations:
             vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200" # optional, the address of the Vault service, default values is https://vault:8200
