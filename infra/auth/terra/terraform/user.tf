@@ -65,6 +65,13 @@ resource "zitadel_user_grant" "batleforc_cluster" {
   user_id    = zitadel_human_user.batleforc.id
 }
 
+resource "zitadel_user_grant" "batleforc_vault" {
+  project_id = zitadel_project.vault.id
+  org_id     = zitadel_org.weebo.id
+  role_keys  = [zitadel_project_role.vault_admin.role_key]
+  user_id    = zitadel_human_user.batleforc.id
+}
+
 # resource "zitadel_user_grant" "batleforc_longhorn" {
 #   project_id = zitadel_project.longhorn.id
 #   org_id     = zitadel_org.weebo.id

@@ -13,8 +13,11 @@ tasks:
     cmds:
     - kubectl get -n vault secret vault-tls -o jsonpath="{.data.ca\.crt}" | base64 --decode > ./vault-ca.crt
   vault:
+    vars:
+      VAULT_TOKEN:
+        sh: task vault:get-token
     cmds:
-    - vault {{ .CLI_ARGS }}
+    - VAULT_TOKEN={{.VAULT_TOKEN}} vault {{ .CLI_ARGS }}
   install-cli:
     cmds:
     - wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
@@ -23,3 +26,14 @@ tasks:
   get-token:
     cmds:
     - kubectl get -n vault secrets vault-unseal-keys -o jsonpath={.data.vault-root} | base64 --decode
+  setup-oidc:
+    vars:
+      VAULT_TOKEN:
+        sh: task vault:get-token
+      OIDC_CLIENT_ID:
+        sh: task kubectl -- get secret vault-auth -n vault -o jsonpath="{.data.clientID}" | base64 --decode
+      OIDC_CLIENT_SECRET:
+        sh: task kubectl -- get secret vault-auth -n vault -o jsonpath="{.data.secret}" | base64 --decode
+    cmds:
+    - VAULT_TOKEN={{.VAULT_TOKEN}} vault write auth/oidc/config oidc_discovery_url=https://login.weebo.fr/.well-known/openid-configuration oidc_client_id={{ .OIDC_CLIENT_ID }} oidc_client_secret={{ .OIDC_CLIENT_SECRET }} default_role=reader
+    - VAULT_TOKEN={{.VAULT_TOKEN}} vault write auth/oidc/role/admin bound_audiences={{.OIDC_CLIENT_ID}} allowed_redirect_uris="http://localhost:8200/ui/vault/auth/oidc/oidc/callback" allowed_redirect_uris="http://localhost:8250/oidc/callback user_claim="sub" token_policies="oidc_manager" groups_claim="roles"
