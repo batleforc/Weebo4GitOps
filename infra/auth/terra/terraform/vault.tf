@@ -17,8 +17,8 @@ resource "zitadel_application_oidc" "vault_app" {
   org_id                      = zitadel_org.weebo.id
   project_id                  = zitadel_project.vault.id
   name                        = "vault"
-  redirect_uris               = ["http://localhost:8250/oidc/callback", "https://localhost:8200/ui/vault/auth/oidc/oidc/callback"]
-  response_types              = ["OIDC_RESPONSE_TYPE_CODE"]
+  redirect_uris               = ["http://localhost:8250/oidc/callback", "https://localhost:8200/ui/vault/auth/oidc/oidc/callback", "https://localhost:8200/v1/auth/oidc/oidc/callback"]
+  response_types              = ["OIDC_RESPONSE_TYPE_ID_TOKEN"]
   grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
   app_type                    = "OIDC_APP_TYPE_WEB"
   auth_method_type            = "OIDC_AUTH_METHOD_TYPE_BASIC"
