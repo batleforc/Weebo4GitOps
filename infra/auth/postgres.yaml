@@ -32,10 +32,10 @@ spec:
           resources:
             requests:
               memory: "150Mi"
-              cpu: "300m"
+              cpu: "100m"
             limits:
               memory: "2Gi"
-              cpu: "100m"
+              cpu: "300m"
           automountServiceAccountToken: true
           podAnnotations:
             vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200" # optional, the address of the Vault service, default values is https://vault:8200
