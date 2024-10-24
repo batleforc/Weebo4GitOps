@@ -30,7 +30,7 @@ resource "zitadel_application_oidc" "vault_app" {
   additional_origins          = ["http://localhost:8250", "http://localhost:8200"]
 }
 
-resource "kubernetes_secret_v1" "grafana_keyid" {
+resource "kubernetes_secret_v1" "vault_keyid" {
   metadata {
     name      = "vault-auth"
     namespace = "vault"
