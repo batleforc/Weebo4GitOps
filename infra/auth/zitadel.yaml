@@ -39,6 +39,8 @@ spec:
                   MachineKey:
                     ExpirationDate: "2027-01-01T00:00:00Z"
                     Type: 1
+                  PAT:
+                    ExpirationDate: "2026-01-01T00:00:00Z"
             Database:
               postgres:
                 Host: pgsql-zitadel-postgresql
