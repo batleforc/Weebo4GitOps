@@ -16,7 +16,7 @@ resource "zitadel_project_role" "vault_admin" {
 resource "zitadel_application_oidc" "vault_app" {
   org_id                      = zitadel_org.weebo.id
   project_id                  = zitadel_project.vault.id
-  name                        = "grafana"
+  name                        = "vault"
   redirect_uris               = ["http://localhost:8250/oidc/callback", "http://localhost:8200/ui/vault/auth/oidc/oidc/callback"]
   response_types              = ["OIDC_RESPONSE_TYPE_CODE"]
   grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
