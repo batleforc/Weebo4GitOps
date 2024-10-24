@@ -13,7 +13,7 @@ kube-apiserver-arg:
 - "oidc-groups-claim=roles"
 - "oidc-groups-prefix=oidc:"
 - "oidc-client-id={{ OIDC_CLIENT_ID }}"
-- "oidc-issuer-url=oidc:https://login.weebo.fr"
+- "oidc-issuer-url=https://login.weebo.fr"
 etcd-expose-metrics: true
 write-kubeconfig-mode: 0644
 disable: traefik, servicelb

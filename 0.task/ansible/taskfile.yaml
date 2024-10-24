@@ -1,0 +1,13 @@
+version: "3"
+
+tasks:
+  replace-config-oidc:
+    dir: ./0.ansible
+    env:
+      KUBECONFIG: "../kubeconfig.yaml"
+    vars:
+      OIDC_CLIENT_ID:
+        sh: task kubectl -- get secret -n zitadel cluster-auth -o jsonpath='{.data.clientID}' | base64 -d
+    cmds:
+    - echo "OIDC_CLIENT_ID={{ .OIDC_CLIENT_ID }}"
+    - ansible-playbook -i hosts.yaml -e "OIDC_CLIENT_ID={{ .OIDC_CLIENT_ID }}" setup-oidc.yaml

@@ -1,0 +1,19 @@
+- name: "Install K3S on master"
+  hosts: "master"
+  tasks:
+    - name: "Update and upgrade apt packages"
+      ansible.builtin.apt:
+        update_cache: "yes"
+        upgrade: "yes"
+      become: true
+    - name: "Replace k3s-init.yaml with k3s-oauth2.yaml and render template"
+      ansible.builtin.template:
+        src: "config-file/k3s-oauth2.yaml"
+        dest: "/etc/rancher/k3s/config.yaml"
+        owner: "{{ k3s_owner }}"
+        group: "{{ k3s_owner }}"
+        mode: "0644"
+      become: true
+    - name: "Restart K3S"
+      ansible.builtin.shell: systemctl restart k3s
+      become: true

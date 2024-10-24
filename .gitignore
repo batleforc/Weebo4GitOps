@@ -1,4 +1,5 @@
 kubeconfig.yml
 kubeconfig.yaml
+kubeconfig.oidc.yaml
 age.agekey
 vault-ca.crt
