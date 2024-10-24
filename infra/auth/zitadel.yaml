@@ -64,6 +64,9 @@ spec:
         serviceAccount:
           name: default
           create: false
+        service:
+          annotations:
+            traefik.ingress.kubernetes.io/service.serversscheme: h2c
         podAnnotations:
           # https://bank-vaults.dev/docs/mutating-webhook/vault-agent-templating/
           vault.security.banzaicloud.io/vault-addr: "https://vault.vault:8200"
@@ -79,6 +82,7 @@ spec:
             haproxy-ingress.github.io/timeout-client: 180s
             haproxy-ingress.github.io/proxy-body-size: 512m
             haproxy-ingress.github.io/backend-protocol: h2
+            traefik.ingress.kubernetes.io/service.serversscheme: h2c
           hosts:
           - host: "login.weebo.fr"
             paths:
